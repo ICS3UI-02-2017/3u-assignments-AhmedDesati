@@ -36,43 +36,50 @@ public class A5Q1UbbiDubbi {
             //sanitize the input so no upper case letters will be given
 
             Word = Word.toLowerCase();
-              
-                      String TransWord = " " + Word;
-           
-                               int length = TransWord.length();
-                         
-              // make a for loop to continue looking for vowels 
-              for (int position = 0; position < length; position++) {
 
-                    // look for a vowel in the word the user typed in
-                    if (TransWord.charAt(position) == 'a'
-                     || TransWord.charAt(position) == 'e'
-                     || TransWord.charAt(position) == 'i'
-                     || TransWord.charAt(position) == 'o'
-                     || TransWord.charAt(position) == 'u') { 
+            String TransWord = " " + Word;
 
-         
-                 if (!(TransWord.charAt( position -1) == 'a'
-                   || TransWord.charAt(position -1) == 'e'
-                   || TransWord.charAt(position -1) == 'i'
-                   || TransWord.charAt(position -1) == 'o'
-                   || TransWord.charAt(position -1) == 'u')) {
-                      
- 
-             // break the word at the vowel and add a ub to it
-  
-                       
-                        String start = TransWord.substring(0, position);
-                        String end = TransWord.substring(position);
+            int length = TransWord.length();
+
+            // make a for loop to continue looking for vowels 
+            for (int i = 0; i < length; i++) {
+
+                // look for a vowel in the word the user typed in
+                if (TransWord.charAt(i) == 'a'
+                        || TransWord.charAt(i) == 'e'
+                        || TransWord.charAt(i) == 'i'
+                        || TransWord.charAt(i) == 'o'
+                        || TransWord.charAt(i) == 'u') {
+
+                    // if there is a vowel before a vowel dont add ub to it 
+                    if (!(TransWord.charAt(i - 1) == 'a'
+                            || TransWord.charAt(i - 1) == 'e'
+                            || TransWord.charAt(i - 1) == 'i'
+                            || TransWord.charAt(i - 1) == 'o'
+                            || TransWord.charAt(i - 1) == 'u')) {
+
+
+                        // break the word at the vowel and add a ub to it
+
+
+                        String start = TransWord.substring(0, i);
+                        String end = TransWord.substring(i);
                         TransWord = start + "ub" + end;
-                    // show the user their translated word  
-                
+
+                        // update the length of the translated word
+                        length = TransWord.length();
+                        // show the user their translated word  
+
                         
-                        System.out.println( Word + " In ubbi dubbi is " + TransWord);
-                        position = position +2;
-            } 
-           }
-          }
-         }
-        }
+
+                        // keep updating the position of the vowel so the system can keep searching for a vowel and add ub before it
+
+                        i = i + 2;
+
+
+                    }
+                }
+            }System.out.println(Word + " In ubbi dubbi is " + TransWord);break;
+       }
+    }
 }
