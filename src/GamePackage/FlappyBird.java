@@ -40,7 +40,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     // YOUR GAME VARIABLES WOULD GO HERE
    
        
-    // make the color brown
+    // make the color brown and dark green
    
     Color brown = new Color(79, 49, 11);
     
@@ -62,7 +62,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     boolean gameover = false;
     
     // first bottom pipe
-    int pipe1X = 150;
+    int pipe1X = 170;
     int pipe1Y = 400;
     
     int pipe1H = 150;
@@ -70,17 +70,17 @@ public class FlappyBird extends JComponent implements ActionListener {
     
     // first top pipe
     
-    int pipe10X = 150;
+    int pipe10X = 170;
     int pipe10Y = 0;
     
     int pipe10W = 70;
-    int pipe10H = 150;
+    int pipe10H = 140;
     
     
           
     // second bottom pipe       
             
-     int pipe2X = 400;
+     int pipe2X = 410;
      int pipe2Y = 430;
      
      int pipe2W = 70;
@@ -88,7 +88,7 @@ public class FlappyBird extends JComponent implements ActionListener {
             
     // second top pipe
             
-     int pipe20X = 400;
+     int pipe20X = 410;
      int pipe20Y = 0;
       
      int pipe20W =70;
@@ -97,7 +97,7 @@ public class FlappyBird extends JComponent implements ActionListener {
   
      // thrid bottom pipe 
      
-    int pipe3X = 650;
+    int pipe3X = 660;
     int pipe3Y = 300;
     
     int pipe3W = 70;
@@ -106,7 +106,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     
      // third top pipe
      
-    int pipe30X = 650;
+    int pipe30X = 660;
     int pipe30Y = 0;
     
     int pipe30W = 70;
@@ -167,7 +167,8 @@ public class FlappyBird extends JComponent implements ActionListener {
         g.fillRect(0, 0, 900, 600);
         // make a floor
         g.setColor(brown);
-        g.fillRect(0, 550, 800, 200);
+        g.fillRect(0, 550, 900, 200);
+        
         
         // make the first set of green pillars
         g.setColor(Color.GREEN);
@@ -199,24 +200,29 @@ public class FlappyBird extends JComponent implements ActionListener {
     // This is run before the game loop begins!
     public void preSetup() {
         // Any of your pre setup before the loop starts should go here
-
+       
+ 
+    
     }
 
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
+      
        
        
-        if(gameover == true ){
+       
+       
+        if(gameover == false ){
         // move the first set of pipes to the left  
         pipe1X = pipe1X -2;
         pipe10X = pipe10X -2;
         
         if(pipe1X < 0){
-            pipe1X =800;
+            pipe1X =830;
         }
         if(pipe10X <0){
-            pipe10X =800;
+            pipe10X =830;
         }
         
         // move the second set of pipes to the left 
@@ -225,10 +231,10 @@ public class FlappyBird extends JComponent implements ActionListener {
         pipe20X = pipe20X -2;
         
         if(pipe2X <0){
-            pipe2X =800;
+            pipe2X =830;
         }
         if(pipe20X < 0){
-            pipe20X =800;
+            pipe20X =830;
         }
         
         // move the third set of pipes to the left 
@@ -236,12 +242,13 @@ public class FlappyBird extends JComponent implements ActionListener {
         pipe30X = pipe30X -2;
         
         if(pipe3X <0){
-            pipe3X =800;
+            pipe3X =830;
         }
         if(pipe30X <0){
-            pipe30X = 800;
+            pipe30X = 830;
         }
         }
+        
         
 
         // if you go to far start at the begining 
@@ -250,13 +257,42 @@ public class FlappyBird extends JComponent implements ActionListener {
            birdX = -50;
         }
        
+        if(birdY  < -10){
+            gameover =true;
+        }
         // if you fall to low start at the begining 
        
         if(gameover == true){
             birdX =0;
             birdY =200;
             birdDY =0;
-           //e System.out.println(" You Lost, Press E to continue ");
+           
+     pipe1X = 170;
+     pipe1Y = 400;
+     pipe1H = 150;
+     pipe1W = 70;
+     pipe10X = 170;
+     pipe10Y = 0;
+     pipe10W = 70;
+     pipe10H = 140;  
+     pipe2X = 410;
+     pipe2Y = 430; 
+     pipe2W = 70;
+     pipe2H = 120;
+     pipe20X = 410;
+     pipe20Y = 0;
+     pipe20W =70;
+     pipe20H = 230;
+     pipe3X = 660;
+     pipe3Y = 300;
+     pipe3W = 70;
+     pipe3H = 250;
+     pipe30X = 660;
+     pipe30Y = 0;
+     pipe30W = 70;
+     pipe30H = 100;
+  
+            // System.out.println(" You Lost, Press E to continue ");
         }
         
         if(birdY > 500){
@@ -273,7 +309,7 @@ public class FlappyBird extends JComponent implements ActionListener {
         // make sure the bird is falling 
         birdY = birdY + birdDY;
         
-        // when the space bar is pressed jump by 1 
+        // when the space bar is pressed jump by 10 
        }
         
         if(jump == true){
@@ -281,34 +317,58 @@ public class FlappyBird extends JComponent implements ActionListener {
         
         }
   
+           
         
-        
+        // add collision for the top pipie
+       
+        if(!( birdX + birdW < pipe10X|| birdX > pipe10X + pipe10W || 
+            birdY + birdH < pipe10Y || birdY > pipe10Y+ pipe10H )){
+           
+              gameover = true;
+        }
       
-        
-     // add collision for the bottom pipe
-        
-        if(!( birdX + birdH < pipe1X || birdX > birdH + pipe1W || 
-                birdY + birdW  < pipe1Y || birdY > birdW + pipe1H )){
+       
+       // add collision for the bottom pipe
+  
+        if(!( birdX + birdW < pipe1X || birdX > pipe1X + pipe1W || 
+                birdY + birdH  < pipe1Y || birdY > pipe1Y + pipe1H )){
           
             gameover = true;
             
             
         }
-  
-    // add collision for the top pipi 
-              if(!( birdX + birdH < pipe10X|| birdX > birdH + pipe10W || 
-                birdY + birdW < pipe10Y || birdY > birdW+ pipe10H )){
-           
-                gameover = true;
-                  
+        // add collision detection for the second top pipe
+         if(!( birdX + birdW < pipe20X || birdX > pipe20X + pipe20W || 
+                birdY + birdH  < pipe20Y || birdY > pipe20Y + pipe20H )){
+          
+            gameover = true;
+            
+           // add collision detection for the second bottom pipe 
+        }
+         if(!( birdX + birdW < pipe2X || birdX > pipe2X + pipe2W || 
+                birdY + birdH  < pipe2Y || birdY > pipe1Y + pipe2H )){
+          
+            gameover = true;
+            
             
         }
-    
-  //  if(birdH && birdX)
-
-        
-        
-        
+         // add collision detection for the third top pipe
+          if(!( birdX + birdW < pipe30X || birdX > pipe30X + pipe30W || 
+                birdY + birdH  < pipe30Y || birdY > pipe30Y + pipe30H )){
+          
+            gameover = true;
+            
+            
+        }
+          // add collision dettection for the third bottom pipe 
+         if(!( birdX + birdW < pipe3X || birdX > pipe3X + pipe3W || 
+                birdY + birdH  < pipe3Y || birdY > pipe3Y + pipe3H )){
+          
+            gameover = true;
+            
+            
+        }
+       
     }
 
     // Used to implement any of the Mouse Actions
@@ -346,19 +406,20 @@ public class FlappyBird extends JComponent implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
            int keyCode = e.getKeyCode();
-           
+           int keyCode2 = e.getKeyCode();
+             
            if(keyCode == KeyEvent.VK_SPACE){
                jump = true;
           
-               if(keyCode == KeyEvent.VK_W){
+            
                    gameover = false;
-               }
+              
            
            }
          
         }
 
-        // if a key has been released
+        // if a key has been released   
         @Override
         public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
