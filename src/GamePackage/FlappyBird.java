@@ -26,7 +26,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     static final int HEIGHT = 600;
 
     //Title of the window
-    String title = "Flappy bird knock off";
+    String title = "Flappy Bird";
 
     // sets the framerate and delay for our game
     // this calculates the number of milliseconds per frame
@@ -48,41 +48,42 @@ public class FlappyBird extends JComponent implements ActionListener {
     
     // bird demensions 
     
-    int birdW = 50;
+    int birdW = 30;
     
-    int birdH = 50;
+    int birdH = 30;
     
-    int birdX = 100;
+    int birdX = 90;
 
-    int birdY = 400;
+    int birdY = 300;
 
     int birdDY =0;
     
-    // make 2 booleans 
+    // make 3 booleans 
     boolean jump = false;
     
     boolean gameover = false;
     
+    boolean gamestart = false;
     // first bottom pipe
-    int pipe1X = 570;
+    int pipe1X = 670;
     int pipe1Y = 400;
     
-    int pipe1H = 160;
+    int pipe1H = 200;
     int pipe1W = 70;
     
     // first top pipe
     
-    int pipe10X = 570;
+    int pipe10X = 670;
     int pipe10Y = 0;
     
     int pipe10W = 70;
-    int pipe10H = 150;
+    int pipe10H =200;
     
     
           
     // second bottom pipe       
             
-     int pipe2X = 810;
+     int pipe2X = 910;
      int pipe2Y = 430;
      
      int pipe2W = 70;
@@ -90,7 +91,7 @@ public class FlappyBird extends JComponent implements ActionListener {
             
     // second top pipe
             
-     int pipe20X = 810;
+     int pipe20X = 910;
      int pipe20Y = 0;
       
      int pipe20W =70;
@@ -99,7 +100,7 @@ public class FlappyBird extends JComponent implements ActionListener {
   
      // thrid bottom pipe 
      
-    int pipe3X = 1060;
+    int pipe3X = 1160;
     int pipe3Y = 300;
     
     int pipe3W = 70;
@@ -108,7 +109,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     
      // third top pipe
      
-    int pipe30X = 1060;
+    int pipe30X = 1160;
     int pipe30Y = 0;
     
     int pipe30W = 70;
@@ -117,16 +118,22 @@ public class FlappyBird extends JComponent implements ActionListener {
                              
    // set the score to 0   
     
-    int score = 0;
-   
+    
+  // Score[0] = 0;
     // make a more seeable font
     
-    Font font1= new Font("arial",Font.BOLD, 40);
-    
+    Font fontL= new Font("arial",Font.BOLD, 50);
+     Font fontS= new Font("arial",Font.BOLD, 20);
+     Font fontM= new Font("arial",Font.BOLD, 30);
     // make an array with 3 spots for high score current score and last score 
-    int[] highScore = new int[2];
+    int[] highScore = new int[1];
     
-    
+    int Score =0;
+   // highScore[] = Score[0];
+        
+        
+        
+            
     // GAME VARIABLES END HERE    
 
     
@@ -191,14 +198,27 @@ public class FlappyBird extends JComponent implements ActionListener {
         // make the third set of green pilars   
         g.fillRect(pipe30X, pipe30Y, pipe30W, pipe30H);
         g.fillRect(pipe3X, pipe3Y, pipe3W, pipe3H);
-        
+        // make some grass
         g.fillRect(0,550, 400, 10);
+        // show the user their score on the top of the screen
         g.setColor(Color.WHITE);
-        g.setFont(font1);
-        g.drawString("" +score,170, 50);
-        g.drawString("Score: ", 40, 50) ;
-        // make a small yellow flappy boy
+        g.setFont(fontL);
+        g.drawString("" +Score,190, 50);
+      // tell the user its game over when he loses
+        if(gameover == true){
+      g.setColor(Color.RED);
+          g.drawString("Game Over",60,230);
+     g.setColor(Color.WHITE);
+          g.setFont(fontS);
+     
+        g.drawString("(Press Space)",130,250);
+       } 
+        if(gamestart == false){
+           g.setFont(fontS);
+            g.drawString("Press SPACE to Start",100,200);
+        }
         
+        // make a small yellow flappy boy
         g.setColor(Color.YELLOW);
         g.fillOval(birdX, birdY, birdW, birdH);
         
@@ -219,33 +239,49 @@ public class FlappyBird extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
-      
+      if(jump == true){
+          gamestart = true;
+      }
+        if(gamestart == true){
     
     // add 1 to the score everytime you pass a pipe
     if(birdX == pipe1X){
-        score = score + 1;
+        Score = Score + 1;
     }
     if(birdX == pipe2X){
-        score = score +1;
+        Score = Score +1;
     }
     if(birdX ==    pipe3X){
-        score = score +1;
+        Score = Score +1;
     }
     // when you lose your score starts at zero 
     if(gameover == true){
-        score = 0;
+        Score = 0;
     }
-       
+    //if(gameover == true){
+    //    Score = highScore[0];
+    // highScore[0] == highScore[1];
+    
+    //}
+    //if (highScore[0] < highScore[1]) {
+            
+               // Score = array[0];
+                
+              //  array[0] = array[1];
+                
+           // //  array[1] = num1;
+    
+       // tell the user to press space if the game is over
        
         if(gameover == false ){
         // move the first set of pipes to the left  
         pipe1X = pipe1X -2;
         pipe10X = pipe10X -2;
         
-        if(pipe1X < 0){
+        if(pipe1X < -70){
             pipe1X =830;
         }
-        if(pipe10X <0){
+        if(pipe10X <-70){
             pipe10X =830;
         }
         
@@ -254,10 +290,10 @@ public class FlappyBird extends JComponent implements ActionListener {
         pipe2X = pipe2X -2;
         pipe20X = pipe20X -2;
         
-        if(pipe2X <0){
+        if(pipe2X <-70){
             pipe2X =830;
         }
-        if(pipe20X < 0){
+        if(pipe20X < -70){
             pipe20X =830;
         }
         
@@ -265,10 +301,10 @@ public class FlappyBird extends JComponent implements ActionListener {
         pipe3X = pipe3X -2;
         pipe30X = pipe30X -2;
         
-        if(pipe3X <0){
+        if(pipe3X <-70){
             pipe3X =830;
         }
-        if(pipe30X <0){
+        if(pipe30X <-70){
             pipe30X = 830;
         }
         }
@@ -287,31 +323,31 @@ public class FlappyBird extends JComponent implements ActionListener {
         // if you fall to low start at the begining 
        
         if(gameover == true){
-            birdX =50;
-            birdY =200;
+            birdX =90;
+            birdY =300;
             birdDY =0;
            
-     pipe1X = 470;
+     pipe1X = 570;
      pipe1Y = 400;
-     pipe1H = 160;
+     pipe1H = 200;
      pipe1W = 70;
-     pipe10X = 470;
+     pipe10X = 570;
      pipe10Y = 0;
      pipe10W = 70;
-     pipe10H = 150;  
-     pipe2X = 810;
+     pipe10H = 200;  
+     pipe2X = 910;
      pipe2Y = 430; 
      pipe2W = 70;
      pipe2H = 130;
-     pipe20X = 810;
+     pipe20X = 910;
      pipe20Y = 0;
      pipe20W =70;
      pipe20H = 240;
-     pipe3X = 1060;
+     pipe3X = 1160;
      pipe3Y = 300;
      pipe3W = 70;
      pipe3H = 260;
-     pipe30X = 1060;
+     pipe30X = 1160;
      pipe30Y = 0;
      pipe30W = 70;
      pipe30H = 110;
@@ -328,7 +364,7 @@ public class FlappyBird extends JComponent implements ActionListener {
        if(gameover == false){
         // keep falling  
        
-       // birdX = birdX +3 ;
+       
         birdDY = birdDY + 1;
         // make sure the bird is falling 
         birdY = birdY + birdDY;
@@ -394,6 +430,7 @@ public class FlappyBird extends JComponent implements ActionListener {
         }
        
     }
+    }
 
     // Used to implement any of the Mouse Actions
     private class Mouse extends MouseAdapter {
@@ -409,6 +446,7 @@ public class FlappyBird extends JComponent implements ActionListener {
         public void mouseReleased(MouseEvent e) {
 
         }
+        
 
         // if the scroll wheel has been moved
         @Override
@@ -430,8 +468,8 @@ public class FlappyBird extends JComponent implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
            int keyCode = e.getKeyCode();
-           int keyCode2 = e.getKeyCode();
-             
+          
+             // jump when someone presses space
            if(keyCode == KeyEvent.VK_SPACE){
                jump = true;
           
@@ -439,8 +477,10 @@ public class FlappyBird extends JComponent implements ActionListener {
                    gameover = false;
               
            
-           }
-         
+           }// start the game when some one presses e
+         if(keyCode == KeyEvent.VK_E){
+             gamestart = true;
+         }
         }
 
         // if a key has been released   
