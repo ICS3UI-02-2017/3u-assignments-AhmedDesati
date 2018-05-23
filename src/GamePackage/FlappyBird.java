@@ -2,6 +2,7 @@ package GamePackage;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -21,7 +22,7 @@ import javax.swing.Timer;
 public class FlappyBird extends JComponent implements ActionListener {
 
     // Height and Width of our game
-    static final int WIDTH = 800;
+    static final int WIDTH = 400;
     static final int HEIGHT = 600;
 
     //Title of the window
@@ -39,6 +40,7 @@ public class FlappyBird extends JComponent implements ActionListener {
 
     // YOUR GAME VARIABLES WOULD GO HERE
    
+   
        
     // make the color brown and dark green
    
@@ -50,7 +52,7 @@ public class FlappyBird extends JComponent implements ActionListener {
     
     int birdH = 50;
     
-    int birdX = 10;
+    int birdX = 100;
 
     int birdY = 400;
 
@@ -62,60 +64,67 @@ public class FlappyBird extends JComponent implements ActionListener {
     boolean gameover = false;
     
     // first bottom pipe
-    int pipe1X = 170;
+    int pipe1X = 570;
     int pipe1Y = 400;
     
-    int pipe1H = 150;
+    int pipe1H = 160;
     int pipe1W = 70;
     
     // first top pipe
     
-    int pipe10X = 170;
+    int pipe10X = 570;
     int pipe10Y = 0;
     
     int pipe10W = 70;
-    int pipe10H = 140;
+    int pipe10H = 150;
     
     
           
     // second bottom pipe       
             
-     int pipe2X = 410;
+     int pipe2X = 810;
      int pipe2Y = 430;
      
      int pipe2W = 70;
-     int pipe2H = 120;
+     int pipe2H = 130;
             
     // second top pipe
             
-     int pipe20X = 410;
+     int pipe20X = 810;
      int pipe20Y = 0;
       
      int pipe20W =70;
-     int pipe20H = 230;
+     int pipe20H = 240;
            
   
      // thrid bottom pipe 
      
-    int pipe3X = 660;
+    int pipe3X = 1060;
     int pipe3Y = 300;
     
     int pipe3W = 70;
-    int pipe3H = 250;
+    int pipe3H = 260;
                            
     
      // third top pipe
      
-    int pipe30X = 660;
+    int pipe30X = 1060;
     int pipe30Y = 0;
     
     int pipe30W = 70;
-    int pipe30H = 100;
+    int pipe30H = 110;
     
                              
+   // set the score to 0   
+    
+    int score = 0;
    
+    // make a more seeable font
     
+    Font font1= new Font("arial",Font.BOLD, 40);
     
+    // make an array with 3 spots for high score current score and last score 
+    int[] highScore = new int[2];
     
     
     // GAME VARIABLES END HERE    
@@ -160,7 +169,7 @@ public class FlappyBird extends JComponent implements ActionListener {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        
+       
         
         // make the sky 
         g.setColor(Color.CYAN);
@@ -183,9 +192,11 @@ public class FlappyBird extends JComponent implements ActionListener {
         g.fillRect(pipe30X, pipe30Y, pipe30W, pipe30H);
         g.fillRect(pipe3X, pipe3Y, pipe3W, pipe3H);
         
-        
-        
-        
+        g.fillRect(0,550, 400, 10);
+        g.setColor(Color.WHITE);
+        g.setFont(font1);
+        g.drawString("" +score,170, 50);
+        g.drawString("Score: ", 40, 50) ;
         // make a small yellow flappy boy
         
         g.setColor(Color.YELLOW);
@@ -209,8 +220,21 @@ public class FlappyBird extends JComponent implements ActionListener {
     // In here is where all the logic for my game will go
     public void gameLoop() {
       
-       
-       
+    
+    // add 1 to the score everytime you pass a pipe
+    if(birdX == pipe1X){
+        score = score + 1;
+    }
+    if(birdX == pipe2X){
+        score = score +1;
+    }
+    if(birdX ==    pipe3X){
+        score = score +1;
+    }
+    // when you lose your score starts at zero 
+    if(gameover == true){
+        score = 0;
+    }
        
        
         if(gameover == false ){
@@ -263,34 +287,34 @@ public class FlappyBird extends JComponent implements ActionListener {
         // if you fall to low start at the begining 
        
         if(gameover == true){
-            birdX =0;
+            birdX =50;
             birdY =200;
             birdDY =0;
            
-     pipe1X = 170;
+     pipe1X = 470;
      pipe1Y = 400;
-     pipe1H = 150;
+     pipe1H = 160;
      pipe1W = 70;
-     pipe10X = 170;
+     pipe10X = 470;
      pipe10Y = 0;
      pipe10W = 70;
-     pipe10H = 140;  
-     pipe2X = 410;
+     pipe10H = 150;  
+     pipe2X = 810;
      pipe2Y = 430; 
      pipe2W = 70;
-     pipe2H = 120;
-     pipe20X = 410;
+     pipe2H = 130;
+     pipe20X = 810;
      pipe20Y = 0;
      pipe20W =70;
-     pipe20H = 230;
-     pipe3X = 660;
+     pipe20H = 240;
+     pipe3X = 1060;
      pipe3Y = 300;
      pipe3W = 70;
-     pipe3H = 250;
-     pipe30X = 660;
+     pipe3H = 260;
+     pipe30X = 1060;
      pipe30Y = 0;
      pipe30W = 70;
-     pipe30H = 100;
+     pipe30H = 110;
   
             // System.out.println(" You Lost, Press E to continue ");
         }
@@ -304,7 +328,7 @@ public class FlappyBird extends JComponent implements ActionListener {
        if(gameover == false){
         // keep falling  
        
-        birdX = birdX +3 ;
+       // birdX = birdX +3 ;
         birdDY = birdDY + 1;
         // make sure the bird is falling 
         birdY = birdY + birdDY;
