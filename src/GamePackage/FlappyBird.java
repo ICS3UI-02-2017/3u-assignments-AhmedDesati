@@ -66,9 +66,9 @@ public class FlappyBird extends JComponent implements ActionListener {
     boolean gamestart = false;
     // first bottom pipe
     int pipe1X = 670;
-    int pipe1Y = 400;
+    int pipe1Y = 370;
     
-    int pipe1H = 200;
+    int pipe1H = 190;
     int pipe1W = 70;
     
     // first top pipe
@@ -116,22 +116,22 @@ public class FlappyBird extends JComponent implements ActionListener {
     int pipe30H = 110;
     
                              
-   // set the score to 0   
+   
     
     
-  // Score[0] = 0;
+   
     // make a more seeable font
     
     Font fontL= new Font("arial",Font.BOLD, 50);
      Font fontS= new Font("arial",Font.BOLD, 20);
      Font fontM= new Font("arial",Font.BOLD, 30);
     // make an array with 3 spots for high score current score and last score 
-    int[] highScore = new int[1];
+   
+     // set the score to 0  
+     int highScore = 0;
     
-    int Score =0;
-   // highScore[] = Score[0];
-        
-        
+    int currentScore =0;
+  
         
             
     // GAME VARIABLES END HERE    
@@ -199,28 +199,41 @@ public class FlappyBird extends JComponent implements ActionListener {
         g.fillRect(pipe30X, pipe30Y, pipe30W, pipe30H);
         g.fillRect(pipe3X, pipe3Y, pipe3W, pipe3H);
         // make some grass
-        g.fillRect(0,550, 400, 10);
+        g.fillRect(0,550, 600, 10);
         // show the user their score on the top of the screen
         g.setColor(Color.WHITE);
-        g.setFont(fontL);
-        g.drawString("" +Score,190, 50);
-      // tell the user its game over when he loses
+       // set the font to medium
+        g.setFont(fontM);
+        // show the user their highscore when the game is over  
         if(gameover == true){
-      g.setColor(Color.RED);
+        g.drawString("HighScore: "+highScore,110,50);
+        }
+       // show the user their current score while they are playing 
+        g.setFont(fontL);
+        if(gameover == false){
+            g.drawString(""+currentScore,190,50);
+            }
+      
+        
+        // tell the user its game over when he loses
+        if(gameover == true){
+          g.setColor(Color.RED);    
           g.drawString("Game Over",60,230);
-     g.setColor(Color.WHITE);
+    
+          g.setColor(Color.WHITE);
           g.setFont(fontS);
-     
-        g.drawString("(Press Space)",130,250);
+          g.drawString("(Press Space)",130,250);
+       
        } 
+        // tell the user to press space to start the game 
         if(gamestart == false){
            g.setFont(fontS);
             g.drawString("Press SPACE to Start",100,200);
         }
-        
+   
         // make a small yellow flappy boy
         g.setColor(Color.YELLOW);
-        g.fillOval(birdX, birdY, birdW, birdH);
+        g.fillRect(birdX, birdY, birdW, birdH);
         
         
         
@@ -244,32 +257,26 @@ public class FlappyBird extends JComponent implements ActionListener {
       }
         if(gamestart == true){
     
-    // add 1 to the score everytime you pass a pipe
+    // make the highest number in the current score equal to the highscore 
+    if(currentScore > highScore){
+        highScore = currentScore;
+    }
+    
+    // show the user their current score 
     if(birdX == pipe1X){
-        Score = Score + 1;
+        currentScore = currentScore + 1;
     }
     if(birdX == pipe2X){
-        Score = Score +1;
+        currentScore = currentScore +1;
     }
     if(birdX ==    pipe3X){
-        Score = Score +1;
+        currentScore= currentScore +1;
     }
-    // when you lose your score starts at zero 
+    // when you lose your current score is 0
     if(gameover == true){
-        Score = 0;
+        currentScore =0;
     }
-    //if(gameover == true){
-    //    Score = highScore[0];
-    // highScore[0] == highScore[1];
-    
-    //}
-    //if (highScore[0] < highScore[1]) {
-            
-               // Score = array[0];
-                
-              //  array[0] = array[1];
-                
-           // //  array[1] = num1;
+   
     
        // tell the user to press space if the game is over
        
@@ -328,8 +335,8 @@ public class FlappyBird extends JComponent implements ActionListener {
             birdDY =0;
            
      pipe1X = 570;
-     pipe1Y = 400;
-     pipe1H = 200;
+     pipe1Y = 370;
+     pipe1H = 190;
      pipe1W = 70;
      pipe10X = 570;
      pipe10Y = 0;
@@ -352,12 +359,12 @@ public class FlappyBird extends JComponent implements ActionListener {
      pipe30W = 70;
      pipe30H = 110;
   
-            // System.out.println(" You Lost, Press E to continue ");
+           
         }
         
         if(birdY > 500){
            gameover = true;
-  
+           
  
        }
      
@@ -509,4 +516,7 @@ public class FlappyBird extends JComponent implements ActionListener {
         FlappyBird game = new FlappyBird();
     }
 }
+
+
+
 
