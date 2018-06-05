@@ -45,95 +45,79 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     int birdY = 300;
     int birdDY = 0;
     int move = +3;
-   
     // make the demensions of the red bird into variables so i can move them around
     int birdSkinX = 150;
     int birdSkinY = 300;
     int birdSkinH = 30;
     int birdSkinW = 30;
-   
     // make the demensions for the next bird you unlock
     int birdSkin2X = 210;
     int birdSkin2Y = 300;
     int birdSkin2H = 30;
     int birdSkin2W = 30;
-   
-    
-    
     // make a jump boolean 
     boolean jump = false;
-   
     // make a gameover boolean
     boolean gameover = false;
-   
     // make gamestart boolean
     boolean gamestart = false;
-   
     // make a color change boolean
     boolean colorChange = false;
-    
     // make another one for a different color 
     boolean colorChange2 = false;
-    
     // make a mouse pressed booelean
     boolean click = false;
-   
     boolean released = true;
-    // all the pipe dimensions in variables so it is easy to make them move 
+    boolean quickMsg = false;
+    boolean reset = false;
     
+    
+    
+    // all the pipe dimensions in variables so it is easy to make them move 
     // first bottom pipe
     int pipe1X = 640;
     int pipe1Y = 370;
     int pipe1H = 190;
     int pipe1W = 70;
-    
     // first top pipe
     int pipe10X = 640;
     int pipe10Y = 0;
     int pipe10W = 70;
     int pipe10H = 220;
-   
     // second bottom pipe  
-   
     int pipe2X = 910;
     int pipe2Y = 440;
     int pipe2W = 70;
     int pipe2H = 120;
-   
     // second top pipe
     int pipe20X = 910;
     int pipe20Y = 0;
     int pipe20W = 70;
     int pipe20H = 290;
-    
     // thrid bottom pipe 
     int pipe3X = 1160;
     int pipe3Y = 250;
     int pipe3W = 70;
     int pipe3H = 300;
     // third top pipe
-   
     int pipe30X = 1160;
     int pipe30Y = 0;
     int pipe30W = 70;
     int pipe30H = 110;
-   
     // make 3 different sizes of fonts 
     Font fontL = new Font("Arial", Font.BOLD, 50);
     Font fontS = new Font("Comic Sans", Font.PLAIN, 20);
     Font fontM = new Font("Comic Sans", Font.PLAIN, 30);
     Font fontXS = new Font("Comic Sans", Font.PLAIN, 14);
-   
     // set the score to 0  
     int highScore = 0;
     int currentScore = 0;
-    
     // make a variables for the mouse coridinates
-   
     int mouseX = 0;
     int mouseY = 0;
-    long start = System.currentTimeMillis();
-    int delay = 3000;
+    long stop = 0;
+    int delay = 1000;
+    int speed = -5;
 
     // GAME VARIABLES END HERE    
     // Constructor to create the Frame and place the panel in
@@ -230,8 +214,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
 
         // tell the user its game over when he loses
+        if (quickMsg == false && gameover == true) {
 
-        if (gameover == true) {
             g.setColor(Color.RED);
             g.drawString("Game Over", 60, 180);
 
@@ -240,107 +224,103 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             g.drawString("(Press Space)", 130, 200);
 
         }
-        // tell the user to press space to start the game 
-        if (System.currentTimeMillis() > start + delay) {
 
-            start = System.currentTimeMillis();
-        }
+        // tell the user to press space to start the game 
 
 
         if (gamestart == false) {
-            System.currentTimeMillis();
             g.setFont(fontS);
             g.drawString("Press SPACE to Start", 100, 200);
         }
 
+        
+         
+        
         // if the game over is true and the highscore is equal to what ever draw a new red bird that the player can select to change its original bird
         if (gameover == true) {
-            if (highScore >= 10) {
+            if (highScore >= 3) {
                 g.setColor(Color.RED);
                 g.fillOval(birdSkinX, birdSkinY, birdSkinW, birdSkinH);
-
+                
                 g.setColor(Color.WHITE);
                 g.setFont(fontS);
-                g.drawString("You unlocked a new bird!", 80, 280);
+                g.drawString("You unlocked a new bird!", 60, 280);
+                
             }
         }
         // when you get a highscore of 20 unlock the blue bird in the gameover screen
         if (gameover == true) {
-            if (highScore >= 20) {
-                g.setColor(Color.ORANGE);
+            if (highScore >= 5) {
+                g.setColor(Color.BLUE);
                 g.fillOval(birdSkin2X, birdSkin2Y, birdSkin2W, birdSkin2H);
-
+                
+                
                 g.setColor(Color.WHITE);
                 g.setFont(fontS);
-                g.drawString("You unlocked a new bird!", 80, 280);
+                g.drawString("You unlocked a new bird!", 60, 280);
+                
+            }
+            
+           
 
-            }         
-                      
         }
-        
-        
+
+
         // if you click on the red bird your bird turns red and the other birds do nothing 
-        if (gameover == true) {
+        if (gameover == true && highScore >= 3) {
             if (mouseX > 150 && mouseY > 300 && mouseX < 180 && mouseY < 330 && click == true) {
                 colorChange = true;
                 colorChange2 = false;
+
+
+                g.setColor(Color.RED);
+                    g.setFont(fontXS);
+
+                    g.drawString("You have changed your bird!", 70, 350);
+                
             }
         }
-        // if you click on the purple bird it turns blue and the other birds do nothing 
-        if (gameover == true) {
+        // if you click on the blue bird it turns blue and the other birds do nothing 
+        if (gameover == true && highScore >=5) {
             if (mouseX > 210 && mouseY > 300 && mouseX < 240 && mouseY < 370 && click == true) {
                 colorChange2 = true;
                 colorChange = false;
+
+
+                g.setColor(Color.BLUE);
+                    g.setFont(fontXS);
+                    g.drawString("You have changed your bird!", 70, 350);
+                
             }
         }
-        
+
         // if you click on the yellow bird all the other birds do nothing 
-         if (gameover == true) {
+        if (gameover == true) {
             if (mouseX > 90 && mouseY > 300 && mouseX < 120 && mouseY < 330 && click == true) {
                 colorChange2 = false;
                 colorChange = false;
-                g.setFont(fontXS);
-                g.drawString("You have changed your bird!", 90, 350);
+
+                // you can only change your bird to the defualt if it is already changed 
+                if (highScore >3) {
+                    g.setColor(Color.YELLOW);
+                    g.setFont(fontXS);
+                    g.drawString("You have changed your bird!", 70, 350);
+                }
             }
-        } 
-         
-         
-            
-        
-         
-        // give the user a quick message when they change their skin
-        if (gameover == true) {
-            if (System.currentTimeMillis() > start + delay) {
-                start = System.currentTimeMillis();
-
-                if (colorChange2 == true) {
-                    g.setFont(fontXS);
-                    g.drawString("You have changed your bird!", 90, 350);
-                }
-
-
-                if (colorChange == true) {
-
-                    g.setFont(fontXS);
-                    g.drawString("You have changed your bird!", 90, 350);
-
-                }
-                
         }
 
-        }
+
         // draw the regualar default yellow bird 
         g.setColor(Color.YELLOW);
         g.fillOval(birdX, birdY, birdW, birdH);
 
         // if the red bird is picked the purple bird isnt picked 
 
-        
+
 
         g.setColor(Color.YELLOW);
         if (colorChange == true) {
             g.setColor(Color.RED);
-            // g.fillOval(birdX, birdY, birdW, birdH);
 
             if (gameover == false) {
                 g.fillOval(birdX, birdY, birdW, birdH);
@@ -348,12 +328,10 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             }
 
 
-
-
         }
         if (colorChange2 == true) {
             g.setColor(Color.BLUE);
-            //g.fillOval(birdX, birdY, birdW, birdH);
+
         }
 
         if (gameover == false) {
@@ -373,36 +351,37 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void gameLoop() {
-    
-        
+
+
         // when you press space the game starts to run
         if (jump == true) {
             gamestart = true;
         }
-        
+
         // before the player starts the bird will look like he is flying by himself up and down
-       
-        if(gamestart == false){
+
+        if (gamestart == false) {
             birdY = birdY + move;
-             if(birdY > 315){
-                  move = - 3;
-             }
-             if(birdY < 285){
-                move = +3;
-             }
-             
-                  
-                  
+            if (birdY > 315) {
+                move = - 2;
+            }
+            if (birdY < 285) {
+                move = +2;
+            }
+
+
+
+
         }
-        
-           
-        
-        
-        
+
+
+
         // if the game has started run all of this code below 
         if (gamestart == true) {
 
             // when the game starts run the score, pipemove, gamereset, birdMove, and pipecollision methods
+
+
 
             score();
 
@@ -414,21 +393,31 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
             pipeCollision();
 
-                        
-            
+            // stop = System.currentTimeMillis();
+            if (stop == System.currentTimeMillis() + delay) {
+
+
+
+                quickMsg = true;
+                if (System.currentTimeMillis() > stop) {
+                    quickMsg = false;
+                }
+            }
+
+
         }
     }
 
     private void score() {
 
         // show the user their current score 
-        if (birdX == pipe10X) {
+        if (birdX <= pipe1X + pipe1W) {
             currentScore = currentScore + 1;
         }
-        if (birdX == pipe20X) {
+        if (birdX == pipe2X) {
             currentScore = currentScore + 1;
         }
-        if (birdX == pipe30X) {
+        if (birdX == pipe3X) {
             currentScore = currentScore + 1;
         }
         // when you lose your current score is 0
@@ -448,8 +437,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
         if (gameover == false) {
             // move the first set of pipes to the left  
-            pipe1X = pipe1X - 5;
-            pipe10X = pipe10X - 5;
+            pipe1X = pipe1X - 3;
+            pipe10X = pipe10X - 3;
 
             // once the pipes pass the left side of the screen come back on the other side 
             if (pipe1X < -70) {
@@ -461,8 +450,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
             // move the second set of pipes to the left 
 
-            pipe2X = pipe2X - 5;
-            pipe20X = pipe20X - 5;
+            pipe2X = pipe2X - 3;
+            pipe20X = pipe20X - 3;
 
             // once the pipes pass the left side of the screen come back on the other side 
             if (pipe2X < -70) {
@@ -473,8 +462,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             }
 
             // move the third set of pipes to the left 
-            pipe3X = pipe3X - 5;
-            pipe30X = pipe30X - 5;
+            pipe3X = pipe3X - 3;
+            pipe30X = pipe30X - 3;
 
             // once the pipes pass the left side of the screen come back on the other side 
             if (pipe3X < -70) {
@@ -485,6 +474,19 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             }
         }
 
+        // when your score increases the pipes get faster 
+
+//        for (int i = 0; i < 1000; i++) {
+//            if(pipe1X == 830 && pipe10X == 830){
+//                pipe1X = pipe1X + speed;
+//                
+//            }
+//               
+//            }
+
+
+
+
 
     }
 
@@ -493,24 +495,38 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
 
         // if you fly to high you lose 
-        if (birdY < -10) {
+        if (birdY < -30) {
             gameover = true;
         }
 
         // if you fly to low you lose 
-        if (birdY > 500) {
+        if (birdY > 510) {
             gameover = true;
 
         }
-        
-       
-        
+
+
+
         // if you lose reset the game and all the pipes 
-        if (gameover == true) {            
+        if (gameover == true) {
+            if (reset = true) {
+                birdY = birdY + move;
+                if (birdY > 315) {
+                    move = - 2;
+                }
+                if (birdY < 285) {
+                    move = +2;
+                }
+            }
+            if (birdDY == 0) {
+                reset = true;
+
+            }
+            birdY = birdY + move;
             birdX = 90;
             birdY = 300;
             birdDY = 0;
-            
+
             pipe1X = 640;
             pipe1Y = 370;
             pipe1H = 190;
@@ -536,6 +552,9 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             pipe30W = 70;
             pipe30H = 110;
 
+
+
+
         }
     }
 
@@ -556,8 +575,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
         if (jump == true) {
             birdDY = -10;
-            
-            
+
+
         }
     }
 
@@ -665,10 +684,12 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
                 // when you press space you jump
 
                 jump = true;
-                released = false;
+
                 // the game will reset everytime you press space 
 
+                released = false;
                 gameover = false;
+
             }
 
         }
@@ -681,12 +702,15 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             if (keyCode == KeyEvent.VK_SPACE) {
 
                 // when you release space you dont jump 
-                
-              if( jump == false && released == true){
-                  
-              }
-             
-                
+
+                jump = false;
+
+                if (released == false) {
+                    jump = false;
+                }
+
+
+
             }
         }
     }
