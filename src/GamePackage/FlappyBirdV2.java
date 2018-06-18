@@ -48,12 +48,12 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     int birdX = 90;
     int birdY = 300;
     int birdDY = 0;
-    // make the demensions of the red bird into variables so i can move them around
+    // make the demensions of the red bird
     int birdSkinX = 150;
     int birdSkinY = 300;
     int birdSkinH = 30;
     int birdSkinW = 30;
-    // make the demensions for the next bird you unlock
+    // make the demensions for the blue bird
     int birdSkin2X = 210;
     int birdSkin2Y = 300;
     int birdSkin2H = 30;
@@ -64,18 +64,18 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     boolean gameover = false;
     // make gamestart boolean
     boolean gamestart = false;
-    // make a color change boolean
+    // make a boolean for changing the color of your bird
     boolean colorChange = false;
-    // make another one for a different color 
+    // make a boolean so you can change your bird to the color blue 
     boolean colorChange2 = false;
-    // make one colorchange boolean for the yellow bird
+    // make one color change boolean for the yellow bird
     boolean colorChange3 = false;
     // make a mouse pressed booelean
     boolean click = false;
+    // make a boolean for the jump key
     boolean released = true;
+    // make a boolean for a quick msg that will appear on the screen
     boolean quickMsg = false;
-    boolean reset = false;
-    boolean scored = false;
     // all the pipe dimensions in variables so it is easy to make them move 
     // first bottom pipe
     int pipe1X = 640;
@@ -118,19 +118,17 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     // make a variables for the mouse coridinates
     int mouseX = 0;
     int mouseY = 0;
-    // make different movement speeds for the birds in the game over screen
+    // create 3 different speed variables for each of the birds that appear on the screen
     int move = +1;
     int move2 = +1;
     int move3 = +1;
     // make a delay integer
-    // these are for the timer
-    int delay = 1000;
-    long stop = 0;
-    // make to numbers that are the cordinates of the background starting point 
+    int delay = 800;
+    // make two numbers that are the cordinates of the background starting point 
     int backX = 0;
     int backY = -150;
     // store the current time 
-     long lastTime = System.currentTimeMillis();
+    long lastTime = System.currentTimeMillis();
     BufferedImage background = loadImage("flappyBackGround.png");
     BufferedImage bird = loadImage("redBird.png");
     // GAME VARIABLES END HERE    
@@ -242,29 +240,41 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
         g.setFont(fontL);
         if (gameover == false) {
             g.drawString("" + currentScore, 190, 50);
-        }
-
-
-        // tell the user its game over when he loses
-        if (quickMsg == true && gameover == true) {
-
-            g.setColor(Color.RED);
-            g.drawString("Game Over", 60, 180);
-
-            g.setColor(Color.WHITE);
-            g.setFont(fontS);
-            g.drawString("(Press Space)", 130, 200);
 
         }
+           // make a half a second timer that does something every... half second
+            if (System.currentTimeMillis() > lastTime + delay) {
+       
+       
+                lastTime = System.currentTimeMillis();
 
+                if (quickMsg == true) {
+                   quickMsg = false;
+               } else {
+                   quickMsg = true;
+               }
+        
+            }
+            // tell the user its game over when he loses 
+            if ( quickMsg == true && gameover == true) {
+
+                    g.setColor(Color.RED);
+                    g.drawString("Game Over", 60, 180);
+
+                    g.setColor(Color.WHITE);
+                    g.setFont(fontS);
+                    g.drawString("(Press Space)", 130, 200);
+                    
+            
+            }
+                       
         // tell the user to press space to start the game 
 
 
-        if (gamestart == false) {
+        if (gamestart == false && quickMsg == true) {
             g.setFont(fontS);
             g.drawString("(Press Space)", 130, 200);
         }
-
 
 
 
@@ -276,8 +286,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
 
             }
-
-            //if you get it new bird it tells you when you click on the bird the message disapears 
+          
+            //if you get a new bird you get a message for it 
             if (gameover == true && highScore >= 5 && colorChange == false && colorChange2 == false && colorChange3 == false) {
 
                 g.setColor(Color.WHITE);
@@ -296,7 +306,6 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
 
 
-//  
         }
         // when you get a highscore of 10 unlock the blue bird in the gameover screen
         if (gameover == true) {
@@ -308,7 +317,7 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
         }
 
 
-        // if you click on the red bird your bird turns red and the other birds do nothing 
+        // if you click on the red bird your bird turns red and the other birds dont do anything 
         if (gameover == true && highScore >= 5) {
             if (mouseX > 150 && mouseY > 270 && mouseX < 180 && mouseY < 330 && click == true) {
                 colorChange = true;
@@ -344,7 +353,7 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
                 colorChange2 = false;
                 colorChange = false;
                 colorChange3 = true;
-                // you can only change your bird to the defualt if it is already changed 
+                // you can only change your bird to the defualt if you have changed your skin already  
 
                 g.setColor(Color.YELLOW);
                 g.setFont(fontXS);
@@ -353,7 +362,7 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             }
 
         }
-            // make the birds look like they are moving 
+        // make the birds look like they are moving 
 
         if (gameover == true && highScore >= 5) {
             birdSkinY = birdSkinY + move2;
@@ -373,15 +382,14 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             if (birdSkin2Y > 310) {
                 move3 = - 1;
             }
-            if (birdSkin2Y < 285 ) {
+            if (birdSkin2Y < 285) {
                 move3 = +1;
             }
         }
 
 
 
-        // draw the regualar default yellow bird 
-
+        // draw the default yellow bird 
 
 
         g.setColor(Color.YELLOW);
@@ -400,9 +408,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
             }
 
-
         }
-        // turn the blue bird blue when its clicked and the game has started 
+        // turn the blue bird blue when its clicked on
         if (colorChange2 == true) {
             g.setColor(Color.BLUE);
 
@@ -438,71 +445,8 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
     public void gameLoop() {
 
 
-        // when you press space the game starts to run
-        if (jump == true) {
-            gamestart = true;
-        }
 
-
-        // before the player starts the bird will look like he is flying by himself up and down
-
-        if (gamestart == false || gameover == true) {
-            birdY = birdY + move;
-            if (birdY > 300) {
-                move = - 1;
-            }
-            if (birdY < 280) {
-                move = +1;
-            }
-
-
-
-            //long currentTime = ((System.currentTimeMillis() - start) / 1000);
-        }
-
-
-        // if the game has started run all of this code below 
-        if (gamestart == true) {
-
-            // when the game starts run the score, pipemove, gamereset, birdMove, and pipecollision methods
-
-
-            score();
-
-            pipemove();
-
-            gameReset();
-
-            birdMove();
-
-            pipeCollision();
-            
-           
-
-
-        if(System.currentTimeMillis() > lastTime + delay){
-            quickMsg = true;        
-        lastTime =System.currentTimeMillis();
-        }
-        
-//        if (gameover == true) {
-//                stop = System.currentTimeMillis() + delay;
-//                quickMsg = true;
-//            }
-//
-//
-//            if (System.currentTimeMillis() > lastTime) {
-//
-//                quickMsg = false;
-//            }
-//
-//            System.out.println("" + stop);
-        }
-    }
-
-    private void score() {
-
-
+       
 
 
         // add 1 to the score everytime you pass a pipe
@@ -510,6 +454,7 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             currentScore = currentScore + 1;
 
         }
+
         if (birdX == pipe2X) {
             currentScore = currentScore + 1;
 
@@ -529,6 +474,42 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
 
         if (currentScore > highScore) {
             highScore = currentScore;
+        }
+
+        // when you press space the game starts to run
+        if (jump == true) {
+            gamestart = true;
+        }
+
+
+        // before the player starts the bird will look like he is flying by himself up and down
+
+        if (gamestart == false || gameover == true) {
+            birdY = birdY + move;
+            if (birdY > 300) {
+                move = - 1;
+            }
+            if (birdY < 280) {
+                move = +1;
+            }
+
+
+        }
+
+        // if the game has started run all of this code below 
+        if (gamestart == true) {
+
+            // when the game starts run the pipemove, gamereset, birdMove, and pipecollision methods
+
+            pipemove();
+
+            gameReset();
+
+            birdMove();
+
+            pipeCollision();
+
+
         }
     }
 
@@ -754,23 +735,15 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             int keyCode = e.getKeyCode();
 
             if (keyCode == KeyEvent.VK_SPACE) {
-
-                // when you press space you jump
-
+              // when you press space you jump
+                   
                 jump = true;
-
-
-                if (jump == true) {
-                    released = false;
-                }
-                // the game will reset everytime you press space 
-
-
                 gameover = false;
-
+                
+                }
             }
 
-        }
+        
 
         // if a key has been released   
         @Override
@@ -778,17 +751,10 @@ public class FlappyBirdV2 extends JComponent implements ActionListener {
             int keyCode = e.getKeyCode();
 
             if (keyCode == KeyEvent.VK_SPACE) {
-
-                // when you release space you dont jump 
-
-                //jump = false;
-
-                if (released == false) {
+               
+                    // when you release space you dont jump 
                     jump = false;
-                }
-
-
-
+               
             }
         }
     }
